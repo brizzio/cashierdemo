@@ -2,12 +2,14 @@ import React, { useState , useRef} from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { Button } from "./CustomUi/Elements";
+import useAuth from "../context/hooks/useAuth";
 
 
 
 const CloseCashier = (props) => {
 
-    
+    const { handleLogout } = useAuth()
+
 
     const inputsModel= {
         name:'',
@@ -92,6 +94,8 @@ const CloseCashier = (props) => {
     return inputs[inputName] || "";
   };
 
+  
+
 
 
 
@@ -119,7 +123,9 @@ const CloseCashier = (props) => {
                       
                       </div>
                         <div className="relative p-6 flex-auto">
-                            <div>content</div>
+                            <div>Chiusura della sessione del cassa</div>
+
+                            <Button variant="primary" size="small" className="h-8 mb-1 w-64 mt-auto" onClick={() => handleLogout()}>{props.buttonText}</Button>
                             
                           </div>
                           {/* <div className="flex items-center justify-end p-3 border-t border-solid border-blueGray-200 rounded-b gap-2">

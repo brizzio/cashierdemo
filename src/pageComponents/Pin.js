@@ -7,10 +7,10 @@ import "react-simple-keyboard/build/css/index.css";
 import "../index.css";
 
 function doDate() {
-    var str = "";
-    var now = new Date();
-    str = now.toDateString() + " " + now.toLocaleTimeString();
-    var pinTime = moment(str).format("hh:mm:ss A");
+    //var str = "";
+    //var now = new Date();
+    //str = now.toDateString() + " " + now.toLocaleTimeString();
+    var pinTime = moment().format("hh:mm:ss A");
     if (document.getElementById("todaysDate"))
       document.getElementById("todaysDate").innerHTML = pinTime;
   }
