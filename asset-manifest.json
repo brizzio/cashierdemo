@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/cashierdemo/static/css/main.c7adbb93.css",
-    "main.js": "/cashierdemo/static/js/main.b602a091.js",
+    "main.css": "/cashierdemo/static/css/main.f098c071.css",
+    "main.js": "/cashierdemo/static/js/main.89c545b4.js",
     "static/media/bizerba-logo.svg": "/cashierdemo/static/media/bizerba-logo.48034a16834e504c89572c472e62004b.svg",
     "index.html": "/cashierdemo/index.html",
-    "main.c7adbb93.css.map": "/cashierdemo/static/css/main.c7adbb93.css.map",
-    "main.b602a091.js.map": "/cashierdemo/static/js/main.b602a091.js.map"
+    "main.f098c071.css.map": "/cashierdemo/static/css/main.f098c071.css.map",
+    "main.89c545b4.js.map": "/cashierdemo/static/js/main.89c545b4.js.map"
   },
   "entrypoints": [
-    "static/css/main.c7adbb93.css",
-    "static/js/main.b602a091.js"
+    "static/css/main.f098c071.css",
+    "static/js/main.89c545b4.js"
   ]
 }
