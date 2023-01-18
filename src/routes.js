@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { Context } from './context/AuthContext'
-
+import useAuth from './context/hooks/useAuth';
 
 import Login from './pageComponents/Login'
 import Logindemo from './pageComponents/Logindemo';
@@ -16,7 +16,9 @@ const ProtectedRoute = ({
   redirectPath = '/login',
   children }) => {
 
-  const {loading, authenticated } = useContext(Context)
+  const {loading, authenticated } = useAuth()
+
+  console.log('protected auth', authenticated)
 
   if(loading){
     return(

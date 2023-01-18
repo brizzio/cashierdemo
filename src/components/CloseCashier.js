@@ -1,53 +1,47 @@
-import React, { useState , useRef} from "react";
+import React, { useState , useRef, useEffect} from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { Button } from "./CustomUi/Elements";
 import useAuth from "../context/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
 
 
 
 const CloseCashier = (props) => {
 
     const { handleLogout } = useAuth()
-
-
-    const inputsModel= {
-        name:'',
-        lname:'',
-        address:'',
-        city:''
-    }
-
-    const inputsFormInit = ()=>{
-        if (localStorage.getItem("newClientForm") === null) {
-            return inputsModel
-        }
-
-        return JSON.parse(localStorage.getItem("newClientForm"))
-
-    }
-   
+    const navigate = useNavigate();
 
    
     const [showModal, setShowModal] = useState(false);
     const [showKeyboard, setShowKeyboard] = useState(false);
-    const [inputs, setInputs] = useState(inputsFormInit());
+    const [inputs, setInputs] = useState({});
     const [layoutName, setLayoutName] = useState("default");
     const [inputName, setInputName] = useState("default");
+    const [logoutDone, setLogoutDone] = useState(false);
 
 
   const keyboard = useRef();
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (logoutDone) {
+      console.log('vai navegar no logout')
+      navigate("/login")
+    }
+  }, [logoutDone]);
+
+  const logout = () => {
     //Prevent page reload
     //event.preventDefault();
-    console.log('inputs', inputs)
-    props.save(inputs)
+    console.log('logout', inputs)
     
     //clean-up
+    handleLogout()
+    setLogoutDone(true)
     setShowModal(false);
-    localStorage.removeItem("newClientForm")
-    setInputs({})
+    
+    
 
        
   };
@@ -125,7 +119,7 @@ const CloseCashier = (props) => {
                         <div className="relative p-6 flex-auto">
                             <div>Chiusura della sessione del cassa</div>
 
-                            <Button variant="primary" size="small" className="h-8 mb-1 w-64 mt-auto" onClick={() => handleLogout()}>{props.buttonText}</Button>
+                            <Button variant="primary" size="small" className="h-8 mb-1 w-64 mt-auto" onClick={() => logout()}>{props.buttonText}</Button>
                             
                           </div>
                           {/* <div className="flex items-center justify-end p-3 border-t border-solid border-blueGray-200 rounded-b gap-2">

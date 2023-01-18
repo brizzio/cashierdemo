@@ -9,16 +9,22 @@ export default function useAuth() {
     const [loading , setLoading] = useState(true)
 
     useEffect(()=>{
-        const token = localStorage.getItem('token');
-        console.log('has token', !!token)
+        const token = verifyToken()
+
         if(token){
             api.defaults.headers.common['X-Auth-Token'] = JSON.parse(token);
             setAuthenticated(true)
         }
-
-        setLoading(false)
     },[])
 
+    function verifyToken(){
+        setLoading(true)
+        const token = localStorage.getItem('token');
+        console.log('verifyToken', !!token)
+        setLoading(false)
+        return token
+
+    }
 
     async function handleLogin(payload){
 
@@ -60,7 +66,7 @@ export default function useAuth() {
 
         setAuthenticated(true)
 
-        return redirect("/");
+        return true;
 
         //window.location.replace("http://localhost:3000");
 
@@ -78,12 +84,14 @@ export default function useAuth() {
 
         setAuthenticated(false)
 
+        return redirect("/");
+        
         
 
     }
 
 
-    return {loading, authenticated, handleLogin, handleLogindemo, handleLogout}
+    return {loading, authenticated,setAuthenticated , verifyToken, handleLogin, handleLogindemo, handleLogout}
 
 
 

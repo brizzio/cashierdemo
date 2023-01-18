@@ -1,6 +1,6 @@
-import React , { useContext } from 'react'
+import React , { useContext, useEffect } from 'react'
 import  { useRef, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 import { Button } from "../components/CustomUi/Elements";
@@ -9,23 +9,30 @@ import useAuth from '../context/hooks/useAuth';
 
 export default function Logindemo () {
 
-  const {authenticated, handleLogindemo} = useAuth()
-  console.log(authenticated)
+  const {authenticated, handleLogindemo, verifyToken} = useAuth()
 
-  const [inputs, setInputs] = useState({});
-  const [layoutName, setLayoutName] = useState("default");
-  const [inputName, setInputName] = useState("default");
+  const navigate = useNavigate();
 
-  const [isSubmitted, setIsSubmitted] =useState(false)
+  
 
-
+  useEffect(() => {
+    console.log('isAuthenticated',authenticated)
+    const token = verifyToken()
+    console.log('verifytoken', token)
+    if (!!token) {
+      console.log('vai navegar')
+      
+      navigate("/");
+      
+    }
+  }, []);
   
 
   const handleLogin = (type) => {
     //Prevent page reload
     
-    setIsSubmitted(handleLogindemo({"type":type}))
-    
+    handleLogindemo({"type":type})
+    navigate("/");
        
   };
 
@@ -34,19 +41,24 @@ export default function Logindemo () {
   return (
 
     <>
-      <article>
+      <article className='grid h-screen place-items-center '>
+          <div className='flex flex-col gap-4 p-6 w-2/6 h-2/6 items-center justify-center border-gray border-2 shadow-md rounded-lg'>
 
-          <div>
-          <Button variant="main" size="small" className="min-w-9" onClick={() => handleLogin('admin')}>Accessa come Amministratore</Button>
+            <h1>CASSA MAREL</h1>
+            
+            <Button variant="main" size="small" className="min-w-9 h-12" onClick={() => handleLogin('admin')}>Accessa come Amministratore</Button>
+            
+
+           
+            <Button variant="main" size="small" className="min-w-9 h-12 " onClick={() => handleLogin('cassa')}>Accessa come Operatore Cassa</Button>
+            
+
+
           </div>
+          
 
-          <div>
-          <Button variant="main" size="small" className="min-w-9" onClick={() => handleLogin('cassa')}>Accessa come Operatore Cassa</Button>
-          </div>
-
-          {isSubmitted && (
-          <Navigate to="/" replace={true} />
-        )}
+         
+        
 
 
 

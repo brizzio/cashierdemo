@@ -80,6 +80,7 @@ class Pin extends Component {
   };
 
   handleClear = () => {
+    console.log('handleClearPin', this.state)
     this.setState(
       {
         input: ""
@@ -113,7 +114,8 @@ class Pin extends Component {
   };
 
   onSubmitHandler = (e) => {
-    this.pin.values = e;
+    console.log('this.pin.values...',e)
+    
     if (this.state.input == this.props.code) {
       //window.localStorage.setItem("pin", this.state.input);
       //window.location.href = "https://localhost:3000/home";
@@ -122,7 +124,7 @@ class Pin extends Component {
     } else {
       console.log("Invalid PIN!", "Pin you enter didn't match. Try again", "error");
             
-      this.handleClear();
+      //this.handleClear();
     }
   };
 
