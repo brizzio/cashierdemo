@@ -4,6 +4,7 @@ import { Context } from './context/AuthContext'
 
 
 import Login from './pageComponents/Login'
+import Logindemo from './pageComponents/Logindemo';
 import Users from './pageComponents/Users'
 import Home from './pageComponents/Home';
 import Pin from './pageComponents/Pin';
@@ -34,7 +35,7 @@ function AppRoutes() {
   return (
   <Router>
     <Routes>
-      <Route path="/login" element={<Login/>} />
+      <Route path="/login" element={<Logindemo/>} />
       <Route element={<ProtectedRoute/>}>
         <Route index element={<Home/>} />
         <Route path="/users" element={<Users/>} />

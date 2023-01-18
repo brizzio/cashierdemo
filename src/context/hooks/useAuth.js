@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import api from "../../api";
+import { redirect } from "react-router-dom";
 
 export default function useAuth() {
 
@@ -41,6 +42,34 @@ export default function useAuth() {
 
     }
 
+    async function handleLogindemo(payload){
+
+    
+        /* const payload = {
+            "email":"antimo@gmail.com",
+            "password":"123456"
+        } */
+        
+
+        console.log('auth')
+        console.log('login as : ', payload)
+
+        localStorage.setItem('token', JSON.stringify(payload.type))
+
+        api.defaults.headers.common['X-Auth-Token'] = payload.type;
+
+        setAuthenticated(true)
+
+        return redirect("/");
+
+        //window.location.replace("http://localhost:3000");
+
+    }
+
+
+
+
+
     async function handleLogout(){
 
         localStorage.removeItem('token')
@@ -54,7 +83,7 @@ export default function useAuth() {
     }
 
 
-    return {loading, authenticated, handleLogin, handleLogout}
+    return {loading, authenticated, handleLogin, handleLogindemo, handleLogout}
 
 
 
