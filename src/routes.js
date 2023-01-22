@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { Context } from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext';
+import InfoProvider from './context/InfoContext';
 import useAuth from './context/hooks/useAuth';
 
 import Login from './pageComponents/Login'
@@ -36,14 +37,19 @@ const ProtectedRoute = ({
 function AppRoutes() {
   return (
   <Router>
-    <Routes>
-      <Route path="/login" element={<Logindemo/>} />
-      <Route element={<ProtectedRoute/>}>
-        <Route index element={<Home/>} />
-        <Route path="/users" element={<Users/>} />
-        <Route path="/suspend" element={<Pin/>} />
-      </Route>
-    </Routes> 
+    <AuthProvider>
+      <InfoProvider>
+        <Routes>
+          <Route path="/login" element={<Logindemo/>} />
+          <Route element={<ProtectedRoute/>}>
+            <Route index element={<Home/>} />
+            <Route path="/users" element={<Users/>} />
+            <Route path="/suspend" element={<Pin/>} />
+          </Route>
+        </Routes> 
+      </InfoProvider>
+    </AuthProvider>
+    
   </Router>
     
   )
