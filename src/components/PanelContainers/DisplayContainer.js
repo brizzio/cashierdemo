@@ -40,6 +40,15 @@ function DisplayContainer() {
     setQuantity(q)
   }
 
+  const openSerialPort = async () =>{
+    const port = await navigator.serial.requestPort();
+      await port.open({
+        baudRate: 6000
+      });
+
+      console.log('port', port)
+  }
+
   return (
     <div className="flex flex-col min-h-full min-w-full mt-3">
 
@@ -88,7 +97,9 @@ function DisplayContainer() {
             <span className="bg-fuchsia-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 mt-auto">Data Prezzi: 22/12/2022</span>
             <span className="bg-orange-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Prodotti: 3.570</span>
             <span className="bg-lime-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Negozio: Supermercati Marel</span>
-            <span className="bg-rose-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Sessione Attiva: hdu-fdsq-eafcs</span>
+            <span className="bg-rose-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                <button onClick={() => openSerialPort()}> Open Serial Port </button>
+            </span>
         </div>
 
        
