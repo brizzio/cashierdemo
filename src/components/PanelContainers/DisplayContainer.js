@@ -23,12 +23,16 @@ const theme={color:{black:'#051619'}}
 function DisplayContainer() {
 
  const navigate = useNavigate()
+
+ //const [upc, setUpc] = useState('7908546855')
   
   const [quantity, setQuantity] = useState(1)
+  const [upc, setUpc] = useState('')
+  const [read, setRead] = useState({})
 
   const product = {
     quantity:quantity,
-    upc:'7908546855',
+    upc:upc,
     name:'Ice Tea: Limone 1,5 l',
     brand:'Lipton',
     manufacturer:'PEPSICO BEVERAGES ITALIA',
@@ -43,11 +47,39 @@ function DisplayContainer() {
   const openSerialPort = async () =>{
     const port = await navigator.serial.requestPort();
       await port.open({
-        baudRate: 6000
+        baudRate: 9600
       });
-
-      console.log('port', port)
+      if (port){
+        console.log('port', port)
+        setRead(port.readable.getReader())
+        console.log('reader', port)
+        readScanner()
+        return
+      }
+      console.log('no port')
   }
+
+  const readScanner = async () =>{
+
+    if (JSON.stringify(read) === '{}') return
+    // Listen to data coming from the serial device.
+    while (true) {
+        const { value, done } = await read.read();
+        if (done) {
+        // Allow the serial port to be closed later.
+        read.releaseLock();
+        break;
+        }
+        // value is a Uint8Array.
+        var string = new TextDecoder().decode(value);
+        console.log('scan reading', value, 'to String: ' , string);
+        setUpc(string)
+    }
+
+    
+
+  }
+
 
   return (
     <div className="flex flex-col min-h-full min-w-full mt-3">
@@ -64,9 +96,7 @@ function DisplayContainer() {
             </div>
             <div className="w-full flex flex-col justify-center pl-3">
                 
-                <div className="text-3xl font-sans font-thin	">
-                        {product.upc}
-                </div>
+                <input className="text-3xl font-sans font-thin" onChange={()=>readScanner()} value={upc}/>
                
                 <div className="text-2xl font-sans font-semibold	">
                     <h3 >
