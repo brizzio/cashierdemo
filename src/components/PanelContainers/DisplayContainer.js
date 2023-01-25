@@ -44,41 +44,48 @@ function DisplayContainer() {
     setQuantity(q)
   }
 
-  const openSerialPort = async () =>{
+const clickOpenSerial = async()=>{
+    await connect()
+}
+
+
+  const connect = async () =>{
+
+    var textContent=''
+
     const port = await navigator.serial.requestPort();
-      await port.open({
+
+    if(!port.readable){
+
+        await port.open({
         baudRate: 9600
       });
-      if (port){
-        console.log('port', port)
-        setRead(port.readable.getReader())
-        console.log('reader', port)
-        readScanner()
-        return
-      }
-      console.log('no port')
-  }
-
-  const readScanner = async () =>{
-
-    if (JSON.stringify(read) === '{}') return
-    // Listen to data coming from the serial device.
-    while (true) {
-        const { value, done } = await read.read();
-        if (done) {
-        // Allow the serial port to be closed later.
-        read.releaseLock();
-        break;
-        }
-        // value is a Uint8Array.
-        var string = new TextDecoder().decode(value);
-        console.log('scan reading', value, 'to String: ' , string);
-        setUpc(string)
     }
+      
 
-    
+      var reader = port.readable.getReader()
+      
+    //readLoop();
+    while (true) {
+        const { value, done } = await reader.read();
+        if (value) {
+            console.log('reader value: ' , value)
+            var c = new TextDecoder().decode(value);
+            console.log('c: ' , c)
+          textContent += c?c:'' ;
+          console.log('reader to string: ' , textContent)
+        }
+        if (done) {
+          console.log('[readLoop] DONE', done);
+          reader.releaseLock();
+          break;
+        }
+      }
 
+      console.log(textContent)
   }
+
+  
 
 
   return (
@@ -96,7 +103,7 @@ function DisplayContainer() {
             </div>
             <div className="w-full flex flex-col justify-center pl-3">
                 
-                <input className="text-3xl font-sans font-thin" onChange={()=>readScanner()} value={upc}/>
+                <input className="text-3xl font-sans font-thin"  />
                
                 <div className="text-2xl font-sans font-semibold	">
                     <h3 >
@@ -128,7 +135,7 @@ function DisplayContainer() {
             <span className="bg-orange-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Prodotti: 3.570</span>
             <span className="bg-lime-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Negozio: Supermercati Marel</span>
             <span className="bg-rose-200 shadow-md text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-                <button onClick={() => openSerialPort()}> Open Serial Port </button>
+                <button onClick={() => clickOpenSerial()}> Open Serial Port </button>
             </span>
         </div>
 
